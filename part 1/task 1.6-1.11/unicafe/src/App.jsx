@@ -23,7 +23,14 @@ const App = () => {
       <Button eventHandler={clickHandler(setNeutral)} text="neutral" />
       <Button eventHandler={clickHandler(setBad)} text="bad" />
       <Info title='statistics' />
-      <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positive={positive} />
+      <Statistics 
+        good={good} 
+        neutral={neutral} 
+        bad={bad} 
+        all={all} 
+        average={average} 
+        positive={positive} 
+      />
     </div>
   )
 }
