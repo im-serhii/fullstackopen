@@ -2,7 +2,8 @@ import Content from './Content'
 import Header from './Header'
 
 const Course = ({ course }) => {
-	const { parts, name } = course
+	const { name, parts } = course
+
 	const total = parts.reduce((sum, part) => sum + part.exercises, 0)
 
 	return (

@@ -3,11 +3,11 @@ import Part from './Part'
 const Content = ({ parts }) => {
 	return (
 		<div>
-			{parts.map(course => (
+			{parts.map(part => (
 				<Part
-					key={course.id}
-					name={course.name}
-					exercises={course.exercises}
+					key={part.id}
+					name={part.name}
+					exercises={part.exercises}
 				/>
 			))}
 		</div>
