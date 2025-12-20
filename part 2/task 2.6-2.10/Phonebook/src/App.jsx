@@ -6,7 +6,12 @@ const App = () => {
 
 	const addNewNumberHandler = e => {
 		e.preventDefault()
-		setPersons(persons.concat({ name: newName }))
+		if (!persons.some(person => person.name === newName)) {
+			setPersons(persons.concat({ name: newName }))
+			setNewName('')
+			return
+		}
+		alert(`${newName} is already added to the phonebook`)
 		setNewName('')
 	}
 
