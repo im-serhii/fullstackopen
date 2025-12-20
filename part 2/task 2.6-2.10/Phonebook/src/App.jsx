@@ -1,4 +1,8 @@
 import { useState } from 'react'
+import Filter from "./components/Filter.jsx";
+import Info from "./components/Info.jsx";
+import Form from "./components/Form.jsx";
+import Phonebook from "./components/Phonebook.jsx";
 
 const App = () => {
 	const [persons, setPersons] = useState([
@@ -42,41 +46,17 @@ const App = () => {
 
 	return (
 		<div>
-			<h2>Phonebook</h2>
-			<div>
-				filter shown with{' '}
-				<input
-					onChange={searchHandler}
-					value={search}
-					type='text'
-				/>
-			</div>
-			<h1>add a new</h1>
-			<form onSubmit={addNewNumberHandler}>
-				<div>
-					name:{' '}
-					<input
-						onChange={inputNewNameHandler}
-						value={newName}
-					/>
-				</div>
-				<div>
-					number:{' '}
-					<input
-						onChange={inputNewNumberHandler}
-						value={newNumber}
-					/>
-				</div>
-				<div>
-					<button type='submit'>add</button>
-				</div>
-			</form>
-			<h2>Numbers</h2>
-			{personsToShow.map(person => (
-				<p key={person.id}>
-					{person.name} {person.number}
-				</p>
-			))}
+			<Info text='Phonebook' />
+			<Filter value={search} searchHandler={searchHandler} />
+			<Info text='add a new' />
+			<Form onSubmit={addNewNumberHandler}
+			      nameValue={newName}
+			      nameOnChange={inputNewNameHandler}
+			      numberValue={newNumber}
+			      numberOnChange={inputNewNumberHandler}
+			/>
+			<Info text='Numbers' />
+			<Phonebook data={personsToShow} />
 		</div>
 	)
 }
