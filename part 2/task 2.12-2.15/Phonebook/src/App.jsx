@@ -4,7 +4,7 @@ import Info from "./components/Info.jsx";
 import Form from "./components/Form.jsx";
 import Phonebook from "./components/Phonebook.jsx";
 import axios from "axios";
-import {create, remove} from "./phonebookService.js";
+import {create, remove, update} from "./phonebookService.js";
 
 
 const App = () => {
@@ -24,19 +24,27 @@ const App = () => {
 
 	const addNewNumberHandler = e => {
 		e.preventDefault()
-		if (!persons.some(person => person.name === newName)) {
-			create({
+
+		const existingPerson = persons.find(person => person.name === newName)
+		if (existingPerson) {
+			if(window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
+				const changePerson = {...existingPerson, number: newNumber}
+				update(existingPerson.id, changePerson)
+					.then(changedPerson => setPersons(persons.map(person => person.id !== changePerson.id ? person : changedPerson)))
+
+			}
+		} else {
+			const newPerson = {
 				name: newName,
 				number: newNumber,
-				id: String(Number(persons[persons.length - 1].id) + 1),
-			}).then(person => setPersons(persons.concat([person])))
+				id: persons.length > 0 ? String(Number(persons[persons.length - 1].id) + 1) : "1",
+			}
+			create(newPerson)
+				.then(createdPerson => setPersons(persons.concat(createdPerson)))
 			setNewName('')
 			setNewNumber('')
-			return
 		}
-		alert(`${newName} is already added to the phonebook`)
-		setNewName('')
-		setNewNumber('')
+
 	}
 
 	const deletePersonHandler = id => {
