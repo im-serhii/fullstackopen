@@ -1,0 +1,8 @@
+import axios from "axios";
+
+const baseUrl = 'http://localhost:3001/persons'
+
+export const create = newPerson => {
+	const request = axios.post(baseUrl, newPerson);
+	return request.then(res => res.data)
+}

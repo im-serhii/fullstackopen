@@ -4,6 +4,8 @@ import Info from "./components/Info.jsx";
 import Form from "./components/Form.jsx";
 import Phonebook from "./components/Phonebook.jsx";
 import axios from "axios";
+import {create} from "./phonebookService.js";
+
 
 const App = () => {
 	const [persons, setPersons] = useState([])
@@ -23,13 +25,11 @@ const App = () => {
 	const addNewNumberHandler = e => {
 		e.preventDefault()
 		if (!persons.some(person => person.name === newName)) {
-			setPersons(
-				persons.concat({
-					name: newName,
-					number: newNumber,
-					id: String(Number(persons[persons.length - 1].id) + 1),
-				})
-			)
+			create({
+				name: newName,
+				number: newNumber,
+				id: String(Number(persons[persons.length - 1].id) + 1),
+			}).then(person => setPersons(persons.concat([person])))
 			setNewName('')
 			setNewNumber('')
 			return
