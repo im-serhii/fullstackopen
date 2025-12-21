@@ -4,7 +4,7 @@ import Info from "./components/Info.jsx";
 import Form from "./components/Form.jsx";
 import Phonebook from "./components/Phonebook.jsx";
 import axios from "axios";
-import {create} from "./phonebookService.js";
+import {create, remove} from "./phonebookService.js";
 
 
 const App = () => {
@@ -39,6 +39,17 @@ const App = () => {
 		setNewNumber('')
 	}
 
+	const deletePersonHandler = id => {
+		const person = persons.find(p => p.id === id)
+
+		if (window.confirm(`Delete ${person.name} ?`)) {
+			remove(id)
+				.then(() => {
+					setPersons(persons.filter(p => p.id !== id))
+				})
+		}
+	}
+
 	const personsToShow = persons.filter(person =>
 		person.name.toLowerCase().includes(search.toLowerCase())
 	)
@@ -59,7 +70,7 @@ const App = () => {
 			      numberOnChange={inputNewNumberHandler}
 			/>
 			<Info text='Numbers' />
-			<Phonebook data={personsToShow} />
+			<Phonebook data={personsToShow} handler={deletePersonHandler}/>
 		</div>
 	)
 }
