@@ -5,10 +5,16 @@ import Form from "./components/Form.jsx";
 import Phonebook from "./components/Phonebook.jsx";
 import axios from "axios";
 import {create, remove, update} from "./phonebookService.js";
+import Notification from "./components/Notification/Notification.jsx";
 
 
 const App = () => {
 	const [persons, setPersons] = useState([])
+	const [newName, setNewName] = useState('')
+	const [newNumber, setNewNumber] = useState('')
+	const [search, setSearch] = useState('')
+	const [notification, setNotification] = useState(null)
+	const [notificationStatus, setNotificationStatus] = useState(null)
 
 	useEffect(() => {
 		axios.get('http://localhost:3001/persons')
@@ -16,11 +22,6 @@ const App = () => {
 				setPersons(response.data)
 			})
 	}, []);
-
-	const [newName, setNewName] = useState('')
-	const [newNumber, setNewNumber] = useState('')
-
-	const [search, setSearch] = useState('')
 
 	const addNewNumberHandler = e => {
 		e.preventDefault()
@@ -31,7 +32,12 @@ const App = () => {
 				const changePerson = {...existingPerson, number: newNumber}
 				update(existingPerson.id, changePerson)
 					.then(changedPerson => setPersons(persons.map(person => person.id !== changePerson.id ? person : changedPerson)))
-
+				setNotificationStatus('success')
+				setNotification(`${changePerson.name} updated`)
+				setTimeout(() => {
+					setNotificationStatus(null)
+					setNotification(null)
+				}, 2500)
 			}
 		} else {
 			const newPerson = {
@@ -41,6 +47,14 @@ const App = () => {
 			}
 			create(newPerson)
 				.then(createdPerson => setPersons(persons.concat(createdPerson)))
+
+			setNotificationStatus('success')
+			setNotification(`${newPerson.name} created`)
+			setTimeout(() => {
+				setNotificationStatus(null)
+				setNotification(null)
+			}, 2500)
+
 			setNewName('')
 			setNewNumber('')
 		}
@@ -68,6 +82,7 @@ const App = () => {
 
 	return (
 		<div>
+			<Notification message={notification} status={notificationStatus}/>
 			<Info text='Phonebook' />
 			<Filter value={search} searchHandler={searchHandler} />
 			<Info text='add a new' />

@@ -1,0 +1,41 @@
+@keyframes fadeIn {
+    from {
+        transform: translateY(-200%);
+    }
+
+    to  {
+        transform: translateY(0px);
+    }
+}
+
+.notification {
+    animation: fadeIn 1s ease;
+    font-size: 1.6rem;
+    margin: 15px auto;
+    color: white;
+    box-shadow: 0 0 10px black;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    width: 30%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 999;
+}
+
+.success {
+    background: green;
+}
+
+.error {
+    background: red;
+}
