@@ -1,34 +1,19 @@
 {
   "persons": [
     {
-      "id": "1",
-      "name": "serhii",
-      "number": "38383832323"
-    },
-    {
-      "id": "2",
-      "name": "john",
-      "number": "38382778723873"
-    },
-    {
-      "id": "3",
-      "name": "anna",
-      "number": "83837474"
-    },
-    {
-      "id": "4",
-      "name": "alex",
-      "number": "822748378"
-    },
-    {
-      "id": "5",
-      "name": "Daria",
+      "id": "8",
+      "name": "bob",
       "number": "383838"
     },
     {
-      "id": "6",
-      "name": "Nikko",
-      "number": "38383832323"
+      "id": "9",
+      "name": "john",
+      "number": "2828282"
+    },
+    {
+      "id": "10",
+      "name": "serhii",
+      "number": "3838383"
     }
   ]
 }

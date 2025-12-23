@@ -13,8 +13,8 @@ const App = () => {
 	const [newName, setNewName] = useState('')
 	const [newNumber, setNewNumber] = useState('')
 	const [search, setSearch] = useState('')
-	const [notification, setNotification] = useState(null)
 	const [notificationStatus, setNotificationStatus] = useState(null)
+	const [notificationPerson, setNotificationPerson] = useState(null)
 
 	useEffect(() => {
 		axios.get('http://localhost:3001/persons')
@@ -23,21 +23,34 @@ const App = () => {
 			})
 	}, []);
 
+	const notificationHandler = (status, name) => {
+		setNotificationStatus(status)
+		setNotificationPerson(name)
+		setTimeout(() => {
+			setNotificationStatus(null)
+			setNotificationPerson(null)
+		}, 2500)
+	}
+
 	const addNewNumberHandler = e => {
 		e.preventDefault()
 
-		const existingPerson = persons.find(person => person.name === newName)
+		const existingPerson = persons.find(person => person.name.trim().toLowerCase() === newName.trim().toLowerCase())
 		if (existingPerson) {
-			if(window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
+			if(window.confirm(`${existingPerson.name} is already added to the phonebook, replace the old number with a new one?`)) {
 				const changePerson = {...existingPerson, number: newNumber}
-				update(existingPerson.id, changePerson)
-					.then(changedPerson => setPersons(persons.map(person => person.id !== changePerson.id ? person : changedPerson)))
-				setNotificationStatus('success')
-				setNotification(`${changePerson.name} updated`)
-				setTimeout(() => {
-					setNotificationStatus(null)
-					setNotification(null)
-				}, 2500)
+				update(changePerson.id, changePerson)
+					.then(changedPerson => {
+						setPersons(persons.map(person => person.id !== changePerson.id ? person : changedPerson))
+						notificationHandler('success', changePerson.name )
+					})
+					.catch(error => {
+						console.log(error)
+						notificationHandler('error', changePerson.name)
+						setNewName('')
+						setNewNumber('')
+						setPersons(persons.filter(p => p.id !== changePerson.id))
+					})
 			}
 		} else {
 			const newPerson = {
@@ -46,14 +59,10 @@ const App = () => {
 				id: persons.length > 0 ? String(Number(persons[persons.length - 1].id) + 1) : "1",
 			}
 			create(newPerson)
-				.then(createdPerson => setPersons(persons.concat(createdPerson)))
-
-			setNotificationStatus('success')
-			setNotification(`${newPerson.name} created`)
-			setTimeout(() => {
-				setNotificationStatus(null)
-				setNotification(null)
-			}, 2500)
+				.then(createdPerson => {
+					setPersons(persons.concat(createdPerson))
+					notificationHandler('success', newPerson.name)
+				})
 
 			setNewName('')
 			setNewNumber('')
@@ -68,6 +77,7 @@ const App = () => {
 			remove(id)
 				.then(() => {
 					setPersons(persons.filter(p => p.id !== id))
+					notificationHandler('deleted', person.name)
 				})
 		}
 	}
@@ -82,7 +92,7 @@ const App = () => {
 
 	return (
 		<div>
-			<Notification message={notification} status={notificationStatus}/>
+			<Notification status={notificationStatus} name={notificationPerson}/>
 			<Info text='Phonebook' />
 			<Filter value={search} searchHandler={searchHandler} />
 			<Info text='add a new' />
