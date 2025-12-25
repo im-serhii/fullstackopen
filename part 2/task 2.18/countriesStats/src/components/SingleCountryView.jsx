@@ -1,9 +1,4 @@
-import React from 'react'
-
-
-
 const SingleCountryView = ({data}) => {
-	console.log(data.flags)
 	return (
 		<div>{data.map(country => (
 			<div key={country.name.official}>
@@ -18,7 +13,6 @@ const SingleCountryView = ({data}) => {
 				<div>
 
 						<img key={country.flags.alt} src={country.flags.png} alt={country.flags.alt}/>
-
 				</div>
 			</div>
 			))}

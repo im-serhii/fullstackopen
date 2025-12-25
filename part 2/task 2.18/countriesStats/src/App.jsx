@@ -6,6 +6,7 @@ import RenderCondition from "./components/RenderCondition.jsx";
 const App = () => {
 	const [countries, setCountries] = useState([])
 	const [query, setQuery] = useState('')
+	const [selectedCountry, setSelectedCountry] = useState(null)
 
 	useEffect(() => {
 		getAll()
@@ -16,14 +17,12 @@ const App = () => {
 
 	const queryHandler = (e) => {
 		setQuery(e.target.value)
+		setSelectedCountry(null)
 	}
 
 	const countriesToShow = query === '' ? [] : countries.filter(
 		c => c.name.common.toLowerCase().includes(query.toLowerCase())
 	)
-
-	console.log(countriesToShow.length)
-	console.log(countriesToShow)
 
 	return (
 		<div>
@@ -31,7 +30,7 @@ const App = () => {
 				find countries
 				<Search queryHandler={queryHandler} query={query}/>
 			</div>
-			<RenderCondition data={countriesToShow} />
+			<RenderCondition setSelectedCountry={setSelectedCountry} selectedCountry={selectedCountry} data={countriesToShow} />
 		</div>
 	)
 }
