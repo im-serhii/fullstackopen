@@ -1,0 +1,24 @@
+{
+  "name": "phonebook-backend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/im-serhii/fullstackopen#readme",
+  "bugs": {
+    "url": "https://github.com/im-serhii/fullstackopen/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/im-serhii/fullstackopen.git"
+  },
+  "license": "ISC",
+  "author": "Serhii Didenko",
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs",
+    "dev": "node --watch index.mjs "
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
