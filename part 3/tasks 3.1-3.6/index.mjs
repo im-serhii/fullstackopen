@@ -1,6 +1,6 @@
 import express from 'express';
 
-const persons = [
+let persons = [
 	{
 		"id": "1",
 		"name": "Arto Hellas",
@@ -47,6 +47,14 @@ app.get('/info', (req, res) => {
 	<p>phonebook has info for ${persons.length} persons</p> 
 	<p>${date}</p>
 	`);
+})
+
+app.delete('/api/persons/:id', (req, res) => {
+	const id = req.params.id;
+
+	persons = persons.filter(p => p.id !== id);
+
+	res.status(204).end();
 })
 
 app.listen(PORT);
