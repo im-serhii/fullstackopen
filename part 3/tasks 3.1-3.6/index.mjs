@@ -63,6 +63,19 @@ app.post('/api/persons', (req, res) => {
 	const person = req.body;
 	const id = Math.floor(Math.random() * 1000000);
 
+	if (!person.name) {
+		res.status(400).json({ error: 'a name is required' });
+		return
+	} else if (!person.number) {
+		res.status(400).json({ error: 'a number is required' });
+		return
+	}
+
+	if (persons.some(p => p.name === person.name)) {
+		res.status(400).json({ error: 'name must be unique' })
+		return
+	}
+
 	const newPerson = {
 		id: String(id + 1),
 		name: person.name,
@@ -71,7 +84,7 @@ app.post('/api/persons', (req, res) => {
 
 	persons = persons.concat(newPerson)
 
-	res.status(201).json(newPerson).end();
+	res.status(201).json(newPerson).end()
 })
 
 app.listen(PORT);
