@@ -16,11 +16,15 @@
   "main": "index.mjs",
   "scripts": {
     "start": "node index.mjs",
-    "dev": "node --watch index.mjs "
+    "dev": "node --watch index.mjs ",
+    "build:ui": "shx rm -rf dist && cd ../frontend && npm run build && shx cp -r dist ../backend",
+    "deploy:full": "npm run build:ui && git add . && git commit -m 'uibuild' && git push"
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^5.2.1",
     "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "shx": "^0.4.0"
   }
 }
