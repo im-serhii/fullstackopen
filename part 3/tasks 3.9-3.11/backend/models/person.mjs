@@ -1,13 +1,10 @@
 import mongoose from "mongoose";
 
-const url = process.env.MONGODB_URI;
+const url = process.env.MONGODB_URI
 
 mongoose.set('strictQuery', false)
 
-console.log('connecting to db');
 mongoose.connect(url, {family: 4})
-	.then(() => console.log('connected to db'))
-	.catch(err => console.log(`connection problem ${err.message}`));
 
 const personSchema = mongoose.Schema({
 	name: String,
