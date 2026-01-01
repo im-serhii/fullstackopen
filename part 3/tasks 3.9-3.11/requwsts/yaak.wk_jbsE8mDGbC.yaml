@@ -1,0 +1,14 @@
+type: workspace
+model: workspace
+id: wk_jbsE8mDGbC
+createdAt: 2025-12-31T07:14:49.417888400
+updatedAt: 2025-12-31T07:14:49.417889400
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+name: Yaak
+encryptionKeyChallenge: null
+settingValidateCertificates: true
+settingFollowRedirects: true
+settingRequestTimeout: 0
