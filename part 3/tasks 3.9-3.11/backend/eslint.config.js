@@ -1,0 +1,40 @@
+import js from '@eslint/js'
+import globals from 'globals'
+import stylisticJs from '@stylistic/eslint-plugin'
+
+export default [
+  js.configs.recommended,
+
+  {
+    files: ['**/*.{js,mjs,cjs}'],
+    plugins: {
+      '@stylistic/js': stylisticJs
+    },
+    languageOptions: {
+      sourceType: 'module',
+      ecmaVersion: 'latest',
+      globals: {
+        ...globals.node,
+        ...globals.browser // корисно, якщо у тебе Full Stack
+      }
+    },
+    rules: {
+      '@stylistic/js/indent': ['error', 2],
+      '@stylistic/js/linebreak-style': ['error', 'unix'],
+      '@stylistic/js/quotes': ['error', 'single'],
+      '@stylistic/js/semi': ['error', 'never'],
+
+      eqeqeq: 'error',
+
+      'no-trailing-spaces': 'error',
+      'object-curly-spacing': ['error', 'always'],
+      'arrow-spacing': ['error', { before: true, after: true }],
+
+      'no-unused-vars': 'warn',
+      'no-console': 'off',
+    }
+  },
+  {
+    ignores: ['dist/**', 'node_modules/**']
+  }
+]
