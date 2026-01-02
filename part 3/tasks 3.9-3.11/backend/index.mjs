@@ -23,13 +23,17 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/api/persons/:id', (req, res) => {
-	const id = req.params.id
-	const person = persons.find(p => p.id === id)
-	if (!person) {
-		res.status(404).json({error: 'No such person'})
-		return;
-	}
-	res.json(person);
+	Person.findById(req.params.id)
+		.then(person => {
+			if (person) {
+				res.json(person);
+			} else {
+				res.status(404).send('Not Found').close()
+			}
+		})
+		.catch(err => {
+			res.status(404).json({error: `No such person ${err.message}`})
+		})
 })
 
 app.get('/info', (req, res) => {
@@ -53,7 +57,6 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
 	const person = req.body;
-	const id = Math.floor(Math.random() * 1000000);
 
 	if (!person.name) {
 		res.status(400).json({ error: 'a name is required' });
@@ -63,20 +66,18 @@ app.post('/api/persons', (req, res) => {
 		return
 	}
 
-	if (persons.some(p => p.name === person.name)) {
-		res.status(400).json({ error: 'name must be unique' })
-		return
-	}
-
-	const newPerson = {
-		id: String(id + 1),
+	const newPerson = new Person({
 		name: person.name,
 		number: person.number,
-	}
+	})
 
-	persons = persons.concat(newPerson)
-
-	res.status(201).json(newPerson).end()
+	newPerson.save()
+		.then(person => {
+				res.status(201).json(person)
+		})
+	.catch(err => {
+		res.status(404).json({ error: `can't add ${err.message}`})
+	})
 })
 
 app.listen(process.env.PORT || 3001);
