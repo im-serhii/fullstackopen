@@ -18,4 +18,7 @@ export const remove = id => {
 export const update = (id, newPerson) => {
 	const request = axios.put(`${baseUrl}/${id}`, newPerson);
 	return request.then(res => res.data)
+		.catch(err => {
+			throw err;
+		});
 }

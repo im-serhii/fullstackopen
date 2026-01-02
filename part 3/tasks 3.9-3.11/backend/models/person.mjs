@@ -13,7 +13,18 @@ const personSchema = mongoose.Schema({
 		minlength: 3,
 		trim: true
 	},
-	number: String,
+	number: {
+		type: String,
+		required: true,
+		minlength: 8,
+		trim: true,
+		validate: {
+			validator: function(v) {
+				return /^\d{2,3}-\d+$/.test(v);
+			},
+			message: props => `${props.value} is not a valid number`
+		}
+	}
 })
 
 personSchema.set('toJSON', {

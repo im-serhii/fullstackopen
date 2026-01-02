@@ -1,17 +1,17 @@
 import "./style.css"
 
-const Notification = ({status, name}) => {
+const Notification = ({status, data}) => {
 	if (status === null) return null;
 
 	let text;
 	if (status === 'success') {
-		text = `${name} added`;
+		text = `${data} added`;
 	} else if (status === 'delete') {
-		text = `${name} deleted`;
+		text = `${data} deleted`;
 	} else if (status === 'update') {
-		text = `${name} updated`;
+		text = `${data} updated`;
 	} else {
-		text = `Information of ${name} has already been removed from server`;
+		text = `${data}`;
 	}
 
 	return (

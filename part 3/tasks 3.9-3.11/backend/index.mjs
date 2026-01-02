@@ -16,6 +16,8 @@ const errorHandler = (err, req, res, next) => {
 		return res.status(400).send({ error: 'malformatted id' })
 	} else if (err.name === "ValidationError") {
 		return res.status(400).json({ error: err.message })
+	} else if (err.name === "NotFound") {
+		return res.status(404).json({ error: 'Person not found' })
 	}
 
 	next(err)
@@ -74,7 +76,7 @@ app.put('/api/persons/:id', (req, res, next) => {
 	Person.findById(req.params.id)
 		.then(person => {
 			if (!person) {
-				return  res.status(404).send('Not Found').end()
+				return Promise.reject({ name: 'NotFound' })
 			}
 
 			person.name = name;

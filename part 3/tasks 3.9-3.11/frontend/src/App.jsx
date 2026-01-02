@@ -14,7 +14,7 @@ const App = () => {
 	const [newNumber, setNewNumber] = useState('')
 	const [search, setSearch] = useState('')
 	const [notificationStatus, setNotificationStatus] = useState(null)
-	const [notificationPerson, setNotificationPerson] = useState(null)
+	const [notificationData, setNotificationData] = useState(null)
 
 	useEffect(() => {
 		axios.get('api/persons')
@@ -23,12 +23,12 @@ const App = () => {
 			})
 	}, []);
 
-	const notificationHandler = (status, name) => {
+	const notificationHandler = (status, data) => {
 		setNotificationStatus(status)
-		setNotificationPerson(name)
+		setNotificationData(data)
 		setTimeout(() => {
 			setNotificationStatus(null)
-			setNotificationPerson(null)
+			setNotificationData(null)
 		}, 2500)
 	}
 
@@ -48,10 +48,14 @@ const App = () => {
 					})
 					.catch(error => {
 						console.log(error)
-						notificationHandler('error', changePerson.name)
+						if (error.response.status === 404) {
+							setPersons(persons.filter(p => p.id !== changePerson.id))
+							notificationHandler('error', `Information of ${changePerson.name} has already been removed from server` )
+						} else {
+							notificationHandler('error', error.response.data.error)
+						}
 						setNewName('')
 						setNewNumber('')
-						setPersons(persons.filter(p => p.id !== changePerson.id))
 					})
 			}
 		} else {
@@ -96,7 +100,7 @@ const App = () => {
 
 	return (
 		<div>
-			<Notification status={notificationStatus} name={notificationPerson}/>
+			<Notification status={notificationStatus} data={notificationData}/>
 			<Info text='Phonebook' />
 			<Filter value={search} searchHandler={searchHandler} />
 			<Info text='add a new' />
