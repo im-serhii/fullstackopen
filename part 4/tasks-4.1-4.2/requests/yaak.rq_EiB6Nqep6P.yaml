@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_EiB6Nqep6P
 createdAt: 2026-01-02T06:59:40.294820600
-updatedAt: 2026-01-02T07:01:08.094014800
+updatedAt: 2026-01-02T08:12:14.201884300
 workspaceId: wk_stS2sxiQSf
 folderId: null
 authentication: {}
@@ -10,7 +10,7 @@ authenticationType: null
 body:
   text: |-
     {
-      "title": "my blog",
+      "title": "my blog 1",
       "author": "John Doe",
       "url": "blog.example.com",
       "likes": 23
