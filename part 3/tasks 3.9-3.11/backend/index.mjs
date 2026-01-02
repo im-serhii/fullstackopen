@@ -28,11 +28,11 @@ app.get('/api/persons/:id', (req, res) => {
 			if (person) {
 				res.json(person);
 			} else {
-				res.status(404).send('Not Found').close()
+				res.status(404).send('Not Found').end()
 			}
 		})
 		.catch(err => {
-			res.status(404).json({error: `No such person ${err.message}`})
+			res.status(404).json({error: `No such person ${err.message}`}).end()
 		})
 })
 
@@ -48,21 +48,24 @@ app.get('/info', (req, res) => {
 })
 
 app.delete('/api/persons/:id', (req, res) => {
-	const id = req.params.id;
-
-	persons = persons.filter(p => p.id !== id);
-
-	res.status(204).end();
+	Person.findByIdAndDelete(req.params.id)
+		.then(person => {
+		res.status(204).end()
+	})
+		.catch(err => {
+			console.log(err);
+			res.status(400).send({ error: 'malformatted id' })
+		})
 })
 
 app.post('/api/persons', (req, res) => {
 	const person = req.body;
 
 	if (!person.name) {
-		res.status(400).json({ error: 'a name is required' });
+		res.status(400).json({ error: 'a name is required' }).end()
 		return
 	} else if (!person.number) {
-		res.status(400).json({ error: 'a number is required' });
+		res.status(400).json({ error: 'a number is required' }).end()
 		return
 	}
 
@@ -73,10 +76,10 @@ app.post('/api/persons', (req, res) => {
 
 	newPerson.save()
 		.then(person => {
-				res.status(201).json(person)
+				res.status(201).json(person).end()
 		})
 	.catch(err => {
-		res.status(404).json({ error: `can't add ${err.message}`})
+		res.status(404).json({ error: `can't add ${err.message}`}).end()
 	})
 })
 
