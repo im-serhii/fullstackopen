@@ -67,6 +67,27 @@ app.delete('/api/persons/:id', (req, res, next) => {
 		})
 })
 
+app.put('/api/persons/:id', (req, res, next) => {
+	const {name, number} = req.body;
+	Person.findById(req.params.id)
+		.then(person => {
+			if (!person) {
+				return  res.status(404).send('Not Found').end()
+			}
+
+			person.name = name;
+			person.number = number;
+
+			return person.save()
+		})
+		.then(person => {
+			res.json(person);
+		})
+		.catch(err => {
+			next(err)
+		})
+})
+
 app.post('/api/persons', (req, res, next) => {
 	const person = req.body;
 

@@ -37,6 +37,14 @@
     background: green;
 }
 
+.delete {
+    background: orangered;
+}
+
 .error {
     background: red;
+}
+
+.update {
+    background: blue;
 }

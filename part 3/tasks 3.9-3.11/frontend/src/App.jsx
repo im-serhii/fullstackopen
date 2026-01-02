@@ -42,7 +42,9 @@ const App = () => {
 				update(changePerson.id, changePerson)
 					.then(changedPerson => {
 						setPersons(persons.map(person => person.id !== changePerson.id ? person : changedPerson))
-						notificationHandler('success', changePerson.name )
+						notificationHandler('update', changePerson.name )
+						setNewName('')
+						setNewNumber('')
 					})
 					.catch(error => {
 						console.log(error)
@@ -77,7 +79,7 @@ const App = () => {
 			remove(id)
 				.then(() => {
 					setPersons(persons.filter(p => p.id !== id))
-					notificationHandler('deleted', person.name)
+					notificationHandler('delete', person.name)
 				})
 		}
 	}
