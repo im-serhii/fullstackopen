@@ -15,7 +15,7 @@
   "type": "module",
   "main": "index.mjs",
   "scripts": {
-    "start": "node index.mjs",
+    "start": "node --env-file=.env index.mjs",
     "dev": "node --env-file=.env --watch index.mjs ",
     "build:ui": "shx rm -rf dist && cd ../frontend && npm run build && shx cp -r dist ../backend",
     "deploy:full": "npm run build:ui && git add . && git commit -m 'uibuild' && git push"
