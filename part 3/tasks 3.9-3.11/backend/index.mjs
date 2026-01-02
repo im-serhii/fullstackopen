@@ -9,6 +9,16 @@ morgan.token('body', (req, res) => {
 	return ''
 })
 
+const errorHandler = (err, req, res, next) => {
+	console.log(err.message);
+
+	if (err.name === "CastError") {
+		return res.status(400).send({ error: 'malformatted id' })
+	}
+
+	next(err)
+}
+
 const app = express();
 
 app.use(express.static('dist'))
@@ -22,7 +32,7 @@ app.get('/api/persons', (req, res) => {
 		})
 })
 
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res, next) => {
 	Person.findById(req.params.id)
 		.then(person => {
 			if (person) {
@@ -32,7 +42,7 @@ app.get('/api/persons/:id', (req, res) => {
 			}
 		})
 		.catch(err => {
-			res.status(404).json({error: `No such person ${err.message}`}).end()
+			next(err);
 		})
 })
 
@@ -47,18 +57,17 @@ app.get('/info', (req, res) => {
 		})
 })
 
-app.delete('/api/persons/:id', (req, res) => {
+app.delete('/api/persons/:id', (req, res, next) => {
 	Person.findByIdAndDelete(req.params.id)
 		.then(person => {
 		res.status(204).end()
 	})
 		.catch(err => {
-			console.log(err);
-			res.status(400).send({ error: 'malformatted id' })
+			next(err)
 		})
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
 	const person = req.body;
 
 	if (!person.name) {
@@ -79,8 +88,10 @@ app.post('/api/persons', (req, res) => {
 				res.status(201).json(person).end()
 		})
 	.catch(err => {
-		res.status(404).json({ error: `can't add ${err.message}`}).end()
+		next(err)
 	})
 })
+
+app.use(errorHandler)
 
 app.listen(process.env.PORT || 3001);
