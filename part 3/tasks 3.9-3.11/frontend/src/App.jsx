@@ -64,6 +64,9 @@ const App = () => {
 					setPersons(persons.concat(createdPerson))
 					notificationHandler('success', newPerson.name)
 				})
+				.catch(error => {
+					notificationHandler('error', error.response.data.error)
+				})
 
 			setNewName('')
 			setNewNumber('')

@@ -5,6 +5,9 @@ const baseUrl = '/api/persons'
 export const create = newPerson => {
 	const request = axios.post(baseUrl, newPerson);
 	return request.then(res => res.data)
+		.catch(err => {
+			throw err;
+		});
 }
 
 export const remove = id => {
