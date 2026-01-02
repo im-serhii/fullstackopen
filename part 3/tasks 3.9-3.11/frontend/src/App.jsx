@@ -58,7 +58,6 @@ const App = () => {
 			const newPerson = {
 				name: newName,
 				number: newNumber,
-				id: persons.length > 0 ? String(Number(persons[persons.length - 1].id) + 1) : "1",
 			}
 			create(newPerson)
 				.then(createdPerson => {
