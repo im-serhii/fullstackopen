@@ -38,3 +38,24 @@ export const mostBlogs = (bloglist) => {
 		blogs: counts[topAuthor]
 	}
 }
+
+export const mostLikes = (bloglist) => {
+	if (bloglist.length === 0) return null
+
+	const counts = bloglist.reduce((acc, blog) => {
+		const author = blog.author
+		acc[author] = (acc[author] || 0) + blog.likes
+		return acc
+	}, {})
+
+	const authors = Object.keys(counts)
+
+	const topAuthor = authors.reduce((maxAuthor, currentAuthor) => {
+		return counts[currentAuthor] > counts[maxAuthor] ? currentAuthor : maxAuthor
+	})
+
+	return {
+		author: topAuthor,
+		likes: counts[topAuthor]
+	}
+}
