@@ -17,3 +17,24 @@ export const favoriteBlog = (bloglist) => {
 
 	return favoriteBlog
 }
+
+export const mostBlogs = (bloglist) => {
+	if (bloglist.length === 0) return null
+
+	const counts = bloglist.reduce((acc, blog) => {
+		const author = blog.author
+		acc[author] = (acc[author] || 0) + 1
+		return acc
+	}, {})
+
+	const authors = Object.keys(counts)
+
+	const topAuthor = authors.reduce((maxAuthor, currentAuthor) => {
+		return counts[currentAuthor] > counts[maxAuthor] ? currentAuthor : maxAuthor
+	})
+
+	return {
+		author: topAuthor,
+		blogs: counts[topAuthor]
+	}
+}
