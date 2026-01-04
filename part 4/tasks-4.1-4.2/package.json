@@ -7,12 +7,17 @@
   "type": "module",
   "main": "index.mjs",
   "scripts": {
-    "dev": "node --watch --env-file=.env index.mjs",
-    "test": "node --test"
+    "start": "cross-env NODE_ENV=production node index.mjs",
+    "dev": "cross-env NODE_ENV=development node --watch --env-file=.env index.mjs",
+    "test": "cross-env NODE_ENV=test node --test"
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.5.1",
+    "cross-env": "^10.1.0",
     "express": "^5.2.1",
     "mongoose": "^9.1.1"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.4"
   }
 }
