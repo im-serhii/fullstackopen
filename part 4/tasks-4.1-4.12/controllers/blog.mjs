@@ -10,6 +10,8 @@ blogRouter.get('/', async(request, response) => {
 })
 
 blogRouter.post('/', async (request, response) => {
+
+
 	const blog = new Blog(request.body);
 
 	try {

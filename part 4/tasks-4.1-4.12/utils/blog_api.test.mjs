@@ -68,7 +68,7 @@ test('should return correctly created blog, increase blog length by 1', async ()
 	assert.strictEqual(blog.likes, addedBlog.likes)
 })
 
-test.only('should put 0 to the like prop if user did not put it into request', async () => {
+test('should put 0 to the like prop if user did not put it into request', async () => {
 	const blog = {
 		title: 'First Blog test length',
 		author: 'Author 1',
@@ -85,6 +85,29 @@ test.only('should put 0 to the like prop if user did not put it into request', a
 		.get('/api/blogs')
 
 	assert.strictEqual(res.body[res.body.length - 1].likes, 0);
+})
+
+test.only('should return status code 400 if title or ulr is missing in request', async () => {
+	const blogs = [
+		{
+			author: 'Author 1',
+			url: 'http://link1.com',
+		},
+		{
+			title: 'First Blog test length',
+			author: 'Author 1',
+		}
+	]
+
+	await api
+	.post('/api/blogs')
+	.send(blogs[0])
+	.expect(400)
+
+	await api
+		.post('/api/blogs')
+	.send(blogs[1])
+	.expect(400)
 })
 
 after(async () => {
