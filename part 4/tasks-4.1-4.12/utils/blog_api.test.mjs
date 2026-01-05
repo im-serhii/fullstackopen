@@ -37,7 +37,7 @@ test('should return 2 blogs in json format', async () => {
 	assert.strictEqual(res.body.length, blogsInitial.length);
 })
 
-test.only('should return correct blog\'s id', async () => {
+test('should return correct blog\'s id', async () => {
 	const res = await api
 		.get('/api/blogs')
 
@@ -45,6 +45,27 @@ test.only('should return correct blog\'s id', async () => {
 		assert.ok(blog.id)
 		assert.strictEqual( blog._id, undefined )
 	})
+})
+
+test.only('should return correctly created blog, increase blog length by 1', async () => {
+	const blog = blogsInitial[0]
+
+	await api
+		.post('/api/blogs')
+		.send(blog)
+		.expect(201)
+		.expect('Content-Type', /application\/json/)
+
+	const res = await api.get('/api/blogs')
+
+	const addedBlog = res.body[res.body.length - 1]
+
+	assert.strictEqual(blogsInitial.length + 1, res.body.length)
+
+	assert.strictEqual(blog.title, addedBlog.title)
+	assert.strictEqual(blog.author, addedBlog.author)
+	assert.strictEqual(blog.url, addedBlog.url)
+	assert.strictEqual(blog.likes, addedBlog.likes)
 })
 
 after(async () => {
