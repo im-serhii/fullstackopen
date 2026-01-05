@@ -27,7 +27,7 @@ beforeEach(async () => {
 	await BlogModel.insertMany(blogsInitial)
 })
 
-test.only('should return 2 blogs in json format', async () => {
+test('should return 2 blogs in json format', async () => {
 	const res = await api
 		.get('/api/blogs')
 		.expect(200)
@@ -35,6 +35,16 @@ test.only('should return 2 blogs in json format', async () => {
 
 	assert.strictEqual(res.status, 200);
 	assert.strictEqual(res.body.length, blogsInitial.length);
+})
+
+test.only('should return correct blog\'s id', async () => {
+	const res = await api
+		.get('/api/blogs')
+
+	res.body.forEach(blog => {
+		assert.ok(blog.id)
+		assert.strictEqual( blog._id, undefined )
+	})
 })
 
 after(async () => {
