@@ -10,7 +10,7 @@ blogRouter.get('/', async(request, response) => {
 })
 
 blogRouter.post('/', async (request, response) => {
-	const blog = new Blog(request.body)
+	const blog = new Blog(request.body);
 
 	try {
 		const addedBlog = await blog.save()

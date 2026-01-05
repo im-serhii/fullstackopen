@@ -47,7 +47,7 @@ test('should return correct blog\'s id', async () => {
 	})
 })
 
-test.only('should return correctly created blog, increase blog length by 1', async () => {
+test('should return correctly created blog, increase blog length by 1', async () => {
 	const blog = blogsInitial[0]
 
 	await api
@@ -66,6 +66,25 @@ test.only('should return correctly created blog, increase blog length by 1', asy
 	assert.strictEqual(blog.author, addedBlog.author)
 	assert.strictEqual(blog.url, addedBlog.url)
 	assert.strictEqual(blog.likes, addedBlog.likes)
+})
+
+test.only('should put 0 to the like prop if user did not put it into request', async () => {
+	const blog = {
+		title: 'First Blog test length',
+		author: 'Author 1',
+		url: 'http://link1.com',
+	}
+
+	await api
+		.post('/api/blogs')
+	  .send(blog)
+		.expect(201)
+	  .expect('Content-Type', /application\/json/)
+
+	const res = await api
+		.get('/api/blogs')
+
+	assert.strictEqual(res.body[res.body.length - 1].likes, 0);
 })
 
 after(async () => {
