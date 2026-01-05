@@ -15,17 +15,37 @@ blogRouter.post('/', async (request, response) => {
 
 	try {
 		const addedBlog = await blog.save()
-		response.status(201).json(addedBlog)
+		response.status(201).json(addedBlog).end()
 	} catch (err) {
 		error(err.message)
 		response.status(400).json({error: err.name})
 	}
 })
 
-blogRouter.delete('/:id', async(request, response) => {
+blogRouter.delete('/:id', async (request, response) => {
 	try {
 		await Blog.findByIdAndDelete(request.params.id)
 		response.status(204).end()
+	} catch (err) {
+		error(err.message)
+		response.status(400).json({error: err.name})
+	}
+})
+
+blogRouter.put('/:id', async (request, response) => {
+	try {
+		const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, request.body, {
+			new: true,
+			runValidators: true,
+			context: 'query'
+		})
+		if (updatedBlog) {
+			response.status(200).json(updatedBlog)
+		} else {
+			response.status(404).end()
+		}
+
+
 	} catch (err) {
 		error(err.message)
 		response.status(400).json({error: err.name})

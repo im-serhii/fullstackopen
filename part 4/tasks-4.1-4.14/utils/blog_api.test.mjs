@@ -110,7 +110,7 @@ test('should return status code 400 if title or ulr is missing in request', asyn
 	.expect(400)
 })
 
-test.only('shold delete specific blog by id', async () => {
+test('shoUld delete specific blog by id', async () => {
 	const res = await api
 		.get('/api/blogs')
 
@@ -128,6 +128,28 @@ test.only('shold delete specific blog by id', async () => {
 	assert.ok(!ids.includes(blogToDelete.id))
 
 	assert.strictEqual(postDeleted.body.length, res.body.length - 1)
+})
+
+test.only('shoUld update specific blog by id', async () => {
+	const blogToUpdate = {
+		title: 'First Blog updated',
+		author: 'Author 1++',
+		url: 'http://link12.com',
+		likes: 11
+	}
+
+	const res = await api
+		.get('/api/blogs')
+
+	const updatedBlog = await api
+		.put(`/api/blogs/${res.body[0].id}`)
+	  .send(blogToUpdate)
+		.expect(200)
+
+	assert.strictEqual(updatedBlog.body.title, blogToUpdate.title)
+	assert.strictEqual(updatedBlog.body.author, blogToUpdate.author)
+	assert.strictEqual(updatedBlog.body.url, blogToUpdate.url)
+	assert.strictEqual(updatedBlog.body.likes, blogToUpdate.likes)
 })
 
 after(async () => {
