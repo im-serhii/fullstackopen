@@ -1,7 +1,9 @@
 import {timeStamp} from "./timeStamp.mjs";
 
 export const info = (...params) => {
-	console.info(`(info) ${timeStamp()} > ${params}`)
+	if(process.env.NODE_ENV !== 'test') {
+		console.info(`(info) ${timeStamp()} > ${params}`)
+	}
 }
 
 export const error = (...params) => {
