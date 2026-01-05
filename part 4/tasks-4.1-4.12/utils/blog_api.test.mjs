@@ -87,7 +87,7 @@ test('should put 0 to the like prop if user did not put it into request', async 
 	assert.strictEqual(res.body[res.body.length - 1].likes, 0);
 })
 
-test.only('should return status code 400 if title or ulr is missing in request', async () => {
+test('should return status code 400 if title or ulr is missing in request', async () => {
 	const blogs = [
 		{
 			author: 'Author 1',
@@ -108,6 +108,26 @@ test.only('should return status code 400 if title or ulr is missing in request',
 		.post('/api/blogs')
 	.send(blogs[1])
 	.expect(400)
+})
+
+test.only('shold delete specific blog by id', async () => {
+	const res = await api
+		.get('/api/blogs')
+
+	const blogToDelete = res.body[0]
+
+	await api
+	.delete(`/api/blogs/${blogToDelete.id}`)
+	.expect(204)
+
+	const postDeleted = await api
+		.get('/api/blogs')
+
+	const ids = postDeleted.body.map(r => r.id)
+
+	assert.ok(!ids.includes(blogToDelete.id))
+
+	assert.strictEqual(postDeleted.body.length, res.body.length - 1)
 })
 
 after(async () => {
