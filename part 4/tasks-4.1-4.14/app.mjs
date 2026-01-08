@@ -3,11 +3,13 @@ import {blogRouter} from "./controllers/blog.mjs";
 import {info} from "./utils/logger.mjs";
 import {dbUrl} from "./utils/config.mjs";
 import mongoose from "mongoose";
+import {userRouter} from "./controllers/user.mjs";
 
 export const app = express()
 
 app.use(express.json())
 app.use("/api/blogs", blogRouter)
+app.use("/api/users", userRouter)
 
 
 info('connecting to the database')
