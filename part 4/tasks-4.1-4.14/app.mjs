@@ -1,18 +1,26 @@
 import express from "express";
 import {blogRouter} from "./controllers/blog.mjs";
-import {info} from "./utils/logger.mjs";
+import {Info, Error} from "./utils/logger.mjs";
 import {dbUrl} from "./utils/config.mjs";
 import mongoose from "mongoose";
 import {userRouter} from "./controllers/user.mjs";
+import {errorHandler} from "./middleware/errorHandler.mjs";
 
 export const app = express()
 
 app.use(express.json())
 app.use("/api/blogs", blogRouter)
 app.use("/api/users", userRouter)
+app.use(errorHandler)
 
+const dbConnection = async () => {
+	try {
+		Info('connecting to the database')
+		await mongoose.connect(dbUrl, { family: 4 })
+		Info('Connected to the database')
+	} catch(err) {
+		Error(err.message)
+	}
+}
 
-info('connecting to the database')
-mongoose.connect(dbUrl, { family: 4 })
-	.then(() => info('Connected to the database'))
-	.catch((err) => error(err.message));
+dbConnection()

@@ -1,4 +1,4 @@
-import { test, after, beforeEach } from'node:test'
+import {test, after, beforeEach, describe} from 'node:test'
 import {app} from "../app.mjs";
 import supertest from 'supertest'
 import BlogModel from '../models/blog.mjs'
@@ -130,7 +130,7 @@ test('shoUld delete specific blog by id', async () => {
 	assert.strictEqual(postDeleted.body.length, res.body.length - 1)
 })
 
-test.only('shoUld update specific blog by id', async () => {
+test('shoUld update specific blog by id', async () => {
 	const blogToUpdate = {
 		title: 'First Blog updated',
 		author: 'Author 1++',

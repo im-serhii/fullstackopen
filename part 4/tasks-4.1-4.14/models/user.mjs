@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const userSchema = mongoose.Schema({
 	username: {
 		type: String,
+		minlength: 3,
 		required: true,
 		unique: true
 	},
@@ -15,8 +16,8 @@ userSchema.set('toJSON', {
 		returnedObject.id = returnedObject._id.toString()
 		delete returnedObject._id
 		delete returnedObject.__v
-		delete   returnedObject.passwordHash
+		delete returnedObject.passwordHash
 	}
 })
 
-export default mongoose.model('User', userSchema)
+export default mongoose.models.User || mongoose.model('User', userSchema)

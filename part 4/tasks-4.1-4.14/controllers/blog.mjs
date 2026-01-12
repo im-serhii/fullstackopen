@@ -1,6 +1,6 @@
 import express from "express";
 import Blog from "../models/blog.mjs";
-import {error} from "../utils/logger.mjs";
+import {Error} from "../utils/logger.mjs";
 import mongoose from "mongoose";
 
 export const blogRouter = express.Router();
@@ -27,7 +27,7 @@ blogRouter.delete('/:id', async (request, response) => {
 		await Blog.findByIdAndDelete(request.params.id)
 		response.status(204).end()
 	} catch (err) {
-		error(err.message)
+		Error(err.message)
 		response.status(400).json({error: err.name})
 	}
 })
