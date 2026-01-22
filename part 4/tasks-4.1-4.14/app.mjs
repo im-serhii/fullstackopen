@@ -5,12 +5,14 @@ import {dbUrl} from "./utils/config.mjs";
 import mongoose from "mongoose";
 import {userRouter} from "./controllers/user.mjs";
 import {errorHandler} from "./middleware/errorHandler.mjs";
+import {authRouter} from "./controllers/auth.mjs";
 
 export const app = express()
 
 app.use(express.json())
 app.use("/api/blogs", blogRouter)
 app.use("/api/users", userRouter)
+app.use("/api/auth", authRouter)
 app.use(errorHandler)
 
 const dbConnection = async () => {
