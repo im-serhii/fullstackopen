@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_EiB6Nqep6P
 createdAt: 2026-01-02T06:59:40.294820600
-updatedAt: 2026-01-23T10:45:56.720500500
+updatedAt: 2026-01-23T11:12:22.994315700
 workspaceId: wk_stS2sxiQSf
 folderId: fl_Eoe4jABFYw
 authentication: {}
@@ -10,7 +10,7 @@ authenticationType: null
 body:
   text: |-
     {
-      "title": "my blog 1 test token 1",
+      "title": "my blog 1 test token with middleware",
       "author": "John Doe",
       "url": "blog.example.com",
       "likes": 23

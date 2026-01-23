@@ -5,15 +5,6 @@ import jwt from "jsonwebtoken";
 import {secret} from "../utils/config.mjs";
 export const blogRouter = express.Router();
 
-const getTokenFrom = request => {
-	const authorization = request.get("authorization")
-	if (authorization && authorization.startsWith("Bearer ")) {
-		return authorization.replace("Bearer ", "");
-	}
-
-	return null
-}
-
 blogRouter.get('/', async(request, response, next) => {
 	try {
 		const blogs = await Blog.find({}).populate('user', {name: 1, username: 1})
@@ -27,7 +18,7 @@ blogRouter.post('/', async (request, response, next) => {
 	try {
 		const body = request.body
 
-		const decodedToken = jwt.verify(getTokenFrom(request), secret)
+		const decodedToken = jwt.verify(request.token, secret)
 		if (!decodedToken.id) {
 			return response.status(401).json({error: "token invalid"})
 		}
