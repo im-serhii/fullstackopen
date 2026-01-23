@@ -1,7 +1,18 @@
 import express from "express";
 import Blog from "../models/blog.mjs";
 import User from "../models/user.mjs";
+import jwt from "jsonwebtoken";
+import {secret} from "../utils/config.mjs";
 export const blogRouter = express.Router();
+
+const getTokenFrom = request => {
+	const authorization = request.get("authorization")
+	if (authorization && authorization.startsWith("Bearer ")) {
+		return authorization.replace("Bearer ", "");
+	}
+
+	return null
+}
 
 blogRouter.get('/', async(request, response, next) => {
 	try {
@@ -13,22 +24,28 @@ blogRouter.get('/', async(request, response, next) => {
 })
 
 blogRouter.post('/', async (request, response, next) => {
-	const body = request.body
-	const user = await User.findOne({})
-
-	if (!user) {
-		return response.status(400).json({error: "User does not exist"})
-	}
-
-	const blog = new Blog({
-		user: user.id,
-		title: body.title,
-		author: body.author,
-		url: body.url,
-		likes: body.likes,
-	})
-
 	try {
+		const body = request.body
+
+		const decodedToken = jwt.verify(getTokenFrom(request), secret)
+		if (!decodedToken.id) {
+			return response.status(401).json({error: "token invalid"})
+		}
+
+		const user = await User.findById(decodedToken.id)
+
+		if (!user) {
+			return response.status(400).json({error: "User does not exist"})
+		}
+
+		const blog = new Blog({
+			user: user.id,
+			title: body.title,
+			author: body.author,
+			url: body.url,
+			likes: body.likes,
+		})
+
 		const addedBlog = await blog.save()
 		user.blogs = user.blogs.concat(addedBlog._id)
 		await user.save()

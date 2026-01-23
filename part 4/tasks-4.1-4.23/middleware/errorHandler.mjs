@@ -22,6 +22,8 @@ export const errorHandler = (err, req, res, next) => {
 		return res.status(401).json({
 			error: 'token expired'
 		})
+	} else if (err.name ===  'JsonWebTokenError') {
+		return response.status(401).json({ error: 'token invalid' })
 	}
 
 	next(err)

@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_EiB6Nqep6P
 createdAt: 2026-01-02T06:59:40.294820600
-updatedAt: 2026-01-23T06:32:48.077989400
+updatedAt: 2026-01-23T10:45:56.720500500
 workspaceId: wk_stS2sxiQSf
 folderId: fl_Eoe4jABFYw
 authentication: {}
@@ -10,7 +10,7 @@ authenticationType: null
 body:
   text: |-
     {
-      "title": "my blog 1",
+      "title": "my blog 1 test token 1",
       "author": "John Doe",
       "url": "blog.example.com",
       "likes": 23
@@ -22,6 +22,14 @@ headers:
   name: Content-Type
   value: application/json
   id: Jr7CNzvGVK
+- enabled: true
+  name: authorization
+  value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImltLXNlcmhpaSIsImlkIjoiNjk3MWZiZTY2MDcwYmE5ZGFlMjQyOTExIiwiaWF0IjoxNzY5MDc3Nzc5fQ.AcOBYzYEiTcubEx4HU6oWv3JEbOcWru2kaVWmlW7QeQ
+  id: AgPhiFMfX5
+- enabled: true
+  name: ''
+  value: ''
+  id: I7KiwdUA65
 method: POST
 name: ADD BLOG
 sortPriority: 333.3333333333333
