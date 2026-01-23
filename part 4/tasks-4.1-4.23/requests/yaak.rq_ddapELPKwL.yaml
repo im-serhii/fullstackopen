@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_ddapELPKwL
+createdAt: 2026-01-05T04:07:41.783013
+updatedAt: 2026-01-05T09:19:36.455151800
+workspaceId: wk_stS2sxiQSf
+folderId: fl_Eoe4jABFYw
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: DELETE
+name: DELETE BLOG
+sortPriority: 2000.0
+url: ${[ BASE_URL ]}api/blogs/695b2b9ff8777490f467ed6f
+urlParameters: []
