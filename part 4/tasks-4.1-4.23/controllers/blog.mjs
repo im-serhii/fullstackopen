@@ -3,6 +3,7 @@ import Blog from "../models/blog.mjs";
 import User from "../models/user.mjs";
 import jwt from "jsonwebtoken";
 import {secret} from "../utils/config.mjs";
+import {userExtractor} from "../middleware/userExtractor.mjs";
 export const blogRouter = express.Router();
 
 blogRouter.get('/', async(request, response, next) => {
@@ -14,16 +15,10 @@ blogRouter.get('/', async(request, response, next) => {
 	}
 })
 
-blogRouter.post('/', async (request, response, next) => {
+blogRouter.post('/', userExtractor, async (request, response, next) => {
 	try {
 		const body = request.body
-
-		const decodedToken = jwt.verify(request.token, secret)
-		if (!decodedToken.id) {
-			return response.status(401).json({error: "token invalid"})
-		}
-
-		const user = await User.findById(decodedToken.id)
+		const user = request.user
 
 		if (!user) {
 			return response.status(400).json({error: "User does not exist"})
@@ -48,10 +43,10 @@ blogRouter.post('/', async (request, response, next) => {
 
 blogRouter.delete('/:id', async (request, response, next) => {
 	try {
-		const decodedToken = jwt.verify(request.token, secret)
+		const user = request.user
 
-		if (!decodedToken.id) {
-			return response.status(401).json({error: "invalid credentials"})
+		if (!user) {
+			return response.status(401).json({error: "token missing or invalid"})
 		}
 
 		const blog = await Blog.findById(request.params.id)
@@ -60,9 +55,7 @@ blogRouter.delete('/:id', async (request, response, next) => {
 			return response.status(404).json({error: "blog does not exist"})
 		}
 
-		console.log(blog.user.toString())
-
-		if(decodedToken.id === blog.user.toString()) {
+		if(user.id.toString() === blog.user.toString()) {
 			await Blog.findByIdAndDelete(request.params.id)
 			return response.status(204).end()
 		} else {
