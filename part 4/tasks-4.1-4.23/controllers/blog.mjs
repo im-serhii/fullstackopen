@@ -48,8 +48,27 @@ blogRouter.post('/', async (request, response, next) => {
 
 blogRouter.delete('/:id', async (request, response, next) => {
 	try {
-		await Blog.findByIdAndDelete(request.params.id)
-		response.status(204).end()
+		const decodedToken = jwt.verify(request.token, secret)
+
+		if (!decodedToken.id) {
+			return response.status(401).json({error: "invalid credentials"})
+		}
+
+		const blog = await Blog.findById(request.params.id)
+
+		if (!blog) {
+			return response.status(404).json({error: "blog does not exist"})
+		}
+
+		console.log(blog.user.toString())
+
+		if(decodedToken.id === blog.user.toString()) {
+			await Blog.findByIdAndDelete(request.params.id)
+			return response.status(204).end()
+		} else {
+			return response.status(401).json({error: "something went wrong"})
+		}
+
 	} catch (err) {
 		next(err)
 	}

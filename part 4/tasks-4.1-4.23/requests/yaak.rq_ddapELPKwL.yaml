@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_ddapELPKwL
 createdAt: 2026-01-05T04:07:41.783013
-updatedAt: 2026-01-05T09:19:36.455151800
+updatedAt: 2026-01-23T16:03:37.309387100
 workspaceId: wk_stS2sxiQSf
 folderId: fl_Eoe4jABFYw
 authentication: {}
@@ -10,9 +10,17 @@ authenticationType: null
 body: {}
 bodyType: null
 description: ''
-headers: []
+headers:
+- enabled: true
+  name: authorization
+  value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImltLXNlcmhpaSIsImlkIjoiNjk3MWZiZTY2MDcwYmE5ZGFlMjQyOTExIiwiaWF0IjoxNzY5MDc3Nzc5fQ.AcOBYzYEiTcubEx4HU6oWv3JEbOcWru2kaVWmlW7QeQ
+  id: uuFKEYwjfP
+- enabled: true
+  name: ''
+  value: ''
+  id: ritQZFuFFb
 method: DELETE
 name: DELETE BLOG
 sortPriority: 2000.0
-url: ${[ BASE_URL ]}api/blogs/695b2b9ff8777490f467ed6f
+url: ${[ BASE_URL ]}api/blogs/697357a90852cd065eb934cd
 urlParameters: []
