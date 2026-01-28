@@ -50,12 +50,28 @@ test('should return correct blog\'s id', async () => {
 test('should return correctly created blog, increase blog length by 1', async () => {
 	const blog = blogsInitial[0]
 
+	const user = {
+		username: 'testuser',
+		password: 'password123',
+		name: 'Test User'
+	}
+
+	await api
+		.post('/api/users')
+		.send(user)
+
+	const login = await api
+		.post("/api/auth")
+		.send({username: user.username, password: user.password})
+
+	const token = login.body.token
+
 	await api
 		.post('/api/blogs')
 		.send(blog)
 		.expect(201)
 		.expect('Content-Type', /application\/json/)
-
+		.set({ Authorization: `Bearer ${token}` })
 	const res = await api.get('/api/blogs')
 
 	const addedBlog = res.body[res.body.length - 1]
@@ -66,6 +82,22 @@ test('should return correctly created blog, increase blog length by 1', async ()
 	assert.strictEqual(blog.author, addedBlog.author)
 	assert.strictEqual(blog.url, addedBlog.url)
 	assert.strictEqual(blog.likes, addedBlog.likes)
+})
+
+test.only('should pass if a token is wrong or missing', async () => {
+	const blog = blogsInitial[0]
+	const token = "Bearer fffffeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImltLXNlcmhpaSIsImlkIjoiNjk3MWZiZTY2MDcwYmE5ZGFlMjQyOTExIiwiaWF0IjoxNzY5MDc3Nzc5fQ.AcOBYzYEiTcubEx4HU6oWv3JEbOcWru2kaVWmlW7QeQ"
+
+	await api
+		.post('/api/blogs')
+		.send(blog)
+		.expect(401)
+		.expect('Content-Type', /application\/json/)
+		.set({ Authorization: token })
+
+	const res = await api.get('/api/blogs')
+
+	assert.strictEqual(blogsInitial.length, res.body.length)
 })
 
 test('should put 0 to the like prop if user did not put it into request', async () => {

@@ -26,7 +26,7 @@ beforeEach(async () => {
 })
 
 describe('user account tests', () => {
-	test.only('should return an error if password is les then 3 chars', async () => {
+	test('should return an error if password is les then 3 chars', async () => {
 		const user = {
 			username: "johndoe",
 			password: "pa",
