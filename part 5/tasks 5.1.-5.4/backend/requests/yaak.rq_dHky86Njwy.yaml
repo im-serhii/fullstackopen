@@ -1,0 +1,29 @@
+type: http_request
+model: http_request
+id: rq_dHky86Njwy
+createdAt: 2026-01-05T04:48:28.732067600
+updatedAt: 2026-01-05T09:19:36.450201600
+workspaceId: wk_stS2sxiQSf
+folderId: fl_Eoe4jABFYw
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+    "title": "Second Blog updated!!!!!",
+        "author": "Author 2 updated",
+        "url": "http://link2.com",
+      "likes": 111
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: Jr7CNzvGVK
+method: PUT
+name: UPDATE BLOG
+sortPriority: 1000.0
+url: ${[ BASE_URL ]}api/blogs/695b43ad8aae67abff1a05bc
+urlParameters: []

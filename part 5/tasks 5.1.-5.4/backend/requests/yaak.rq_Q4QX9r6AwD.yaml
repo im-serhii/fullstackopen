@@ -1,0 +1,27 @@
+type: http_request
+model: http_request
+id: rq_Q4QX9r6AwD
+createdAt: 2026-01-22T10:29:05.710750300
+updatedAt: 2026-01-22T10:29:32.955608700
+workspaceId: wk_stS2sxiQSf
+folderId: fl_jVdjwowtGz
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "username": "im-serhii",
+      "password": "ghfrnbrf"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: ExTRynXyEE
+method: POST
+name: AUTH USER
+sortPriority: 2000.001
+url: ${[ BASE_URL ]}api/auth
+urlParameters: []

@@ -1,0 +1,28 @@
+type: http_request
+model: http_request
+id: rq_YWC2m2PsXA
+createdAt: 2026-01-05T09:20:40.264579400
+updatedAt: 2026-01-22T10:28:52.228852600
+workspaceId: wk_stS2sxiQSf
+folderId: fl_jVdjwowtGz
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "name": "Serhii Didenko",
+      "username": "im-serhii",
+      "password": "ghfrnbrf"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: ExTRynXyEE
+method: POST
+name: ADD USER
+sortPriority: 2000.0
+url: ${[ BASE_URL ]}api/users
+urlParameters: []
