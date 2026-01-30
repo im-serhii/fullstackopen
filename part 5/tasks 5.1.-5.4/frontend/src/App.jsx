@@ -3,7 +3,6 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import UserForm from "./components/UserForm.jsx";
 import {login} from "./services/login.js";
-import blog from "./components/Blog";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -15,12 +14,25 @@ const App = () => {
     )  
   }, [])
 
+  useEffect(() => {
+    const userInLocalStorage = localStorage.getItem("user");
+    if (userInLocalStorage) {
+      const user = JSON.parse(userInLocalStorage)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
   const handleLogin = async userData => {
     try {
       const { username, password } = userData
       const user = await login({username, password})
-      blog.setToken(user.token)
+
+      window.localStorage.setItem('user', JSON.stringify(user))
+
       setUser(user)
+
+      blogService.setToken(user.token)
     } catch (error) {
       console.log(error)
     }
@@ -34,6 +46,12 @@ const App = () => {
           <div>
             <h2>blogs</h2>
             <p>{user.name} logged in</p>
+            <button
+              onClick={() => {
+                localStorage.removeItem('user')
+                setUser(null)
+              }}
+            >log out</button>
           </div>
           <hr/>
           {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
