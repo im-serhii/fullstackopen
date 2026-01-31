@@ -4,11 +4,13 @@ import blogService from './services/blogs'
 import UserForm from "./components/UserForm.jsx";
 import {login} from "./services/login.js";
 import NewBlogForm from "./components/NewBlogForm.jsx";
-import blog from "./components/Blog";
+import Notification from "./components/Notification/Notification.jsx";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+  const [notificationType, setNotificationType] = useState(null)
+  const [notificationData, setNotificationData] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -25,6 +27,16 @@ const App = () => {
     }
   }, [])
 
+  const handleNotification = (type, data) => {
+    setNotificationType(type)
+    setNotificationData(data)
+
+    setTimeout(() => {
+      setNotificationType(null)
+      setNotificationData(null)
+    }, 2500)
+  }
+
   const handleLogin = async userData => {
     try {
       const { username, password } = userData
@@ -36,6 +48,7 @@ const App = () => {
 
       blogService.setToken(user.token)
     } catch (error) {
+      handleNotification('error', error.name)
       console.log(error)
     }
   }
@@ -43,10 +56,12 @@ const App = () => {
   const handleAddBlog = async data => {
     const addedBlog = await blogService.addBlog(data)
     setBlogs([...blogs, addedBlog])
+    handleNotification('success', addedBlog.title)
   }
 
   return (
     <div>
+      <Notification type={notificationType} data={notificationData} />
       {!user && <UserForm handleLogin={handleLogin} />}
       {user &&
         <>
