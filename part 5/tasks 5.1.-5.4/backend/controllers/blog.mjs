@@ -1,8 +1,5 @@
 import express from "express";
 import Blog from "../models/blog.mjs";
-import User from "../models/user.mjs";
-import jwt from "jsonwebtoken";
-import { secret } from "../utils/config.mjs";
 import { userExtractor } from "../middleware/userExtractor.mjs";
 export const blogRouter = express.Router();
 
