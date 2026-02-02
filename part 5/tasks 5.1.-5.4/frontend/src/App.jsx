@@ -1,16 +1,19 @@
-import { useState, useEffect } from 'react'
+import {useState, useEffect, useRef} from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import UserForm from "./components/UserForm.jsx";
 import {login} from "./services/login.js";
 import NewBlogForm from "./components/NewBlogForm.jsx";
 import Notification from "./components/Notification/Notification.jsx";
+import Toggle from "./components/Toggle.jsx";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [notificationType, setNotificationType] = useState(null)
   const [notificationData, setNotificationData] = useState(null)
+
+  const addBlogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -56,6 +59,7 @@ const App = () => {
   const handleAddBlog = async data => {
     const addedBlog = await blogService.addBlog(data)
     setBlogs([...blogs, addedBlog])
+    addBlogFormRef.current.toggle()
     handleNotification('success', addedBlog.title)
   }
 
@@ -76,7 +80,9 @@ const App = () => {
             >log out</button>
           </div>
           <hr/>
-          <NewBlogForm handleBlog={handleAddBlog} />
+          <Toggle ref={addBlogFormRef} label={"create new blog blog"} >
+            <NewBlogForm handleBlog={handleAddBlog} />
+          </Toggle>
           <hr/>
           {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
         </>
