@@ -14,7 +14,6 @@ const Toggle = ({children, label, ref}) => {
 		}
 	)
 
-
 	return (
 		<>
 			<div style={hideWhenVisible}>
