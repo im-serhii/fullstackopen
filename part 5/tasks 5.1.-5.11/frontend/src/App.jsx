@@ -63,6 +63,13 @@ const App = () => {
     handleNotification('success', addedBlog.title)
   }
 
+  const handleAddLike = async (blog) => {
+    const blogToUpdate = {...blog, likes: blog.likes + 1}
+    const likedBlog = await blogService.updateBlog(blogToUpdate.id, blogToUpdate)
+
+    setBlogs(blogs.map(b => b.id !== blog.id ? b : likedBlog))
+  }
+
   return (
     <div>
       <Notification type={notificationType} data={notificationData} />
@@ -84,7 +91,7 @@ const App = () => {
             <NewBlogForm handleBlog={handleAddBlog} />
           </Toggle>
           <hr/>
-          {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+          {blogs.map(blog => <Blog key={blog.id} addLikeHandler={handleAddLike} blog={blog} />)}
         </>
       }
     </div>
