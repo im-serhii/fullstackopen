@@ -64,10 +64,15 @@ const App = () => {
   }
 
   const handleAddLike = async (blog) => {
-    const blogToUpdate = {...blog, likes: blog.likes + 1}
+    const blogToUpdate = {...blog, likes: blog.likes + 1, user: blog.user.id || blog.user}
     const likedBlog = await blogService.updateBlog(blogToUpdate.id, blogToUpdate)
 
     setBlogs(blogs.map(b => b.id !== blog.id ? b : likedBlog))
+  }
+
+  const handleDeleteBlog = async (blogId) => {
+    await blogService.deleteBlog(blogId)
+    setBlogs(blogs.filter(b => b.id !== blogId))
   }
 
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
@@ -93,7 +98,7 @@ const App = () => {
             <NewBlogForm handleBlog={handleAddBlog} />
           </Toggle>
           <hr/>
-          {sortedBlogs.map(blog => <Blog key={blog.id} addLikeHandler={handleAddLike} blog={blog} />)}
+          {sortedBlogs.map(blog => <Blog username={user.username} deleteBlogHandler={handleDeleteBlog} key={blog.id} addLikeHandler={handleAddLike} blog={blog} />)}
         </>
       }
     </div>
