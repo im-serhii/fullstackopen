@@ -70,6 +70,8 @@ const App = () => {
     setBlogs(blogs.map(b => b.id !== blog.id ? b : likedBlog))
   }
 
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
+
   return (
     <div>
       <Notification type={notificationType} data={notificationData} />
@@ -91,7 +93,7 @@ const App = () => {
             <NewBlogForm handleBlog={handleAddBlog} />
           </Toggle>
           <hr/>
-          {blogs.map(blog => <Blog key={blog.id} addLikeHandler={handleAddLike} blog={blog} />)}
+          {sortedBlogs.map(blog => <Blog key={blog.id} addLikeHandler={handleAddLike} blog={blog} />)}
         </>
       }
     </div>
