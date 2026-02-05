@@ -1,10 +1,10 @@
-import {useState} from "react";
+import { useState } from 'react'
 
-const Blog = ({blog, addLikeHandler, deleteBlogHandler, username}) => {
-  const [show, setShow] = useState(false);
+const Blog = ({ blog, addLikeHandler, deleteBlogHandler, username }) => {
+  const [show, setShow] = useState(false)
 
   const toggle = () => {
-    setShow(!show);
+    setShow(!show)
   }
 
   const likeHandler = () => {
@@ -25,18 +25,18 @@ const Blog = ({blog, addLikeHandler, deleteBlogHandler, username}) => {
     marginBottom: 5
   }
 
-	return (
+  return (
     <div style={blogStyle}>
       <span>
-        {blog.title} {blog.author} <button onClick={toggle}>{show ? "hide" : "show"}</button>
+        {blog.title} {blog.author} <button onClick={toggle}>{show ? 'hide' : 'show'}</button>
       </span>
-      <div style={{display: show ? '' : 'none'}}>
+      <div style={{ display: show ? '' : 'none' }}>
         <a href={blog.url}>{blog.url}</a>
         <br/>
         {blog.likes} likes <button onClick={() => likeHandler()}>likes</button>
         {username === blog?.user?.username && <> <br /> <button onClick={() => deleteHandler()}>delete blog</button>  </>}
       </div>
     </div>
-	)
+  )
 }
 export default Blog

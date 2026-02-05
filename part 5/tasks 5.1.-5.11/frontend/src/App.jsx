@@ -1,11 +1,11 @@
-import {useState, useEffect, useRef} from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import UserForm from "./components/UserForm.jsx";
-import {login} from "./services/login.js";
-import NewBlogForm from "./components/NewBlogForm.jsx";
-import Notification from "./components/Notification/Notification.jsx";
-import Toggle from "./components/Toggle.jsx";
+import UserForm from './components/UserForm.jsx'
+import { login } from './services/login.js'
+import NewBlogForm from './components/NewBlogForm.jsx'
+import Notification from './components/Notification/Notification.jsx'
+import Toggle from './components/Toggle.jsx'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -18,11 +18,11 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
-    const userInLocalStorage = localStorage.getItem("user");
+    const userInLocalStorage = localStorage.getItem('user')
     if (userInLocalStorage) {
       const user = JSON.parse(userInLocalStorage)
       setUser(user)
@@ -43,7 +43,7 @@ const App = () => {
   const handleLogin = async userData => {
     try {
       const { username, password } = userData
-      const user = await login({username, password})
+      const user = await login({ username, password })
 
       window.localStorage.setItem('user', JSON.stringify(user))
 
@@ -64,7 +64,7 @@ const App = () => {
   }
 
   const handleAddLike = async (blog) => {
-    const blogToUpdate = {...blog, likes: blog.likes + 1, user: blog.user.id || blog.user}
+    const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id || blog.user }
     const likedBlog = await blogService.updateBlog(blogToUpdate.id, blogToUpdate)
 
     setBlogs(blogs.map(b => b.id !== blog.id ? b : likedBlog))
@@ -94,7 +94,7 @@ const App = () => {
             >log out</button>
           </div>
           <hr/>
-          <Toggle ref={addBlogFormRef} label={"create new blog blog"} >
+          <Toggle ref={addBlogFormRef} label={'create new blog blog'} >
             <NewBlogForm handleBlog={handleAddBlog} />
           </Toggle>
           <hr/>
