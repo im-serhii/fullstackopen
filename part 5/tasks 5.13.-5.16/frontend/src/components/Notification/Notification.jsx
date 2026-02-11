@@ -9,10 +9,6 @@ const Notification = ({ type, data }) => {
     text = 'username or password are incorrect'
   }
 
-  return (
-    <div className={`notification ${type}`}>
-      {text}
-    </div>
-  )
+  return <div className={`notification ${type}`}>{text}</div>
 }
 export default Notification

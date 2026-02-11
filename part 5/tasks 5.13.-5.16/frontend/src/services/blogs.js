@@ -12,11 +12,10 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-const addBlog = async (data) => {
-
+const addBlog = async data => {
   const config = {
     headers: {
-      Authorization: token,
+      Authorization: token
     }
   }
 
@@ -29,13 +28,13 @@ const updateBlog = async (id, data) => {
   return response.data
 }
 
-const deleteBlog = async (id) => {
+const deleteBlog = async id => {
   const config = {
     headers: {
-      Authorization: token,
+      Authorization: token
     }
   }
-  const response = await axios.delete(`${baseUrl}/${id}`, config,)
+  const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response.data
 }
 

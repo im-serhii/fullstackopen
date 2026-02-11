@@ -11,8 +11,7 @@ const Toggle = ({ children, label, ref }) => {
 
   useImperativeHandle(ref, () => {
     return { toggle }
-  }
-  )
+  })
 
   return (
     <>
