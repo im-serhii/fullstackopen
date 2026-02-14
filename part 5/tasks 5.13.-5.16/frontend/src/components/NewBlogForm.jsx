@@ -21,7 +21,7 @@ const NewBlogForm = ({ handleBlog }) => {
       </label>
       <br />
       <label>
-        author:{' '}
+        author:
         <input value={author} onChange={({ target }) => setAuthor(target.value)} type='text' />
       </label>
       <br />
