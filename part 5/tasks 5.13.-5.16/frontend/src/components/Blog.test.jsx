@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react'
-import Blog from './Blog'
-import { expect } from 'vitest'
 import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { expect, vi } from 'vitest'
+import Blog from './Blog'
 
 test('by default, renders only title and author', async () => {
   const blog = {
@@ -45,4 +45,29 @@ test('url and likes are visible when button clicked', async () => {
 
   expect(url).toBeVisible()
   expect(likes).toBeVisible()
+})
+
+test('like button clicked two times and event handler is recived as a prop alos called twice', async () => {
+  const blog = {
+    title: 'my first blog',
+    author: 'serhii',
+    url: 'http://localhost',
+    likes: 11
+  }
+
+  const user = userEvent.setup()
+  const likeHandler = vi.fn()
+
+  render(<Blog addLikeHandler={likeHandler} blog={blog} />)
+
+  const showButton = await screen.findByText('show')
+
+  await user.click(showButton)
+
+  const likeButton = await screen.findByText('like')
+
+  await user.click(likeButton)
+  await user.click(likeButton)
+
+  expect(likeHandler.mock.calls).toHaveLength(2)
 })

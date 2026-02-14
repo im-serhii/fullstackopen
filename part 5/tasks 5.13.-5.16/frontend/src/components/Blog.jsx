@@ -33,7 +33,7 @@ const Blog = ({ blog, addLikeHandler, deleteBlogHandler, username }) => {
       <div style={{ display: show ? '' : 'none' }}>
         <a href={blog.url}>{blog.url}</a>
         <br />
-        {blog.likes} likes <button onClick={() => likeHandler()}>likes</button>
+        {blog.likes} likes <button onClick={() => likeHandler()}>like</button>
         {username === blog?.user?.username && (
           <>
             {' '}
